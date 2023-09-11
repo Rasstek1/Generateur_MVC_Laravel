@@ -1,9 +1,9 @@
-@extends('layout')
+@extends('components.layout')
 
 @section('content')
     <div>
         <h1 style="text-align: center;">Formulaire</h1>
-        <form action="{{ url('/traiter-formulaire') }}" method="POST" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); max-width: 500px; margin: auto;">
+        <form action="{{ route('formulaire.store') }}" method="POST" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); max-width: 500px; margin: auto;">
             @csrf
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom</label>
@@ -25,16 +25,12 @@
                 <label for="commentaire" class="form-label">Message</label>
                 <textarea class="form-control" id="commentaire" name="commentaire" rows="4" required></textarea>
             </div>
-            <form action="upload.php" method="POST" enctype="multipart/form-data">
-                Sélectionnez une image :
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <input type="submit" value="Uploader l'image" name="submit">
-            </form>
+            <div class="mb-3">
+                <label for="photo">Sélectionnez une image :</label>
+                <input type="file" name="photo" id="photo">
+            </div>
 
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
-
-
     </div>
-
 @endsection

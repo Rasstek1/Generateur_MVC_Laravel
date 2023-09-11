@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('/components.formulaire');
+    return view('/components.formulaire');//route pour afficher le formulaire
 });
+
+Route::resource('profile', ProfileController::class)//route pour les ressources du controller ProfileController
+    ->only(['index', 'show', 'create', 'store', 'edit', 'update', 'destroy']);
+
+Route::get('/profile', [ProfileController::class, 'create'])->name('profiles.create');//route pour afficher le formulaire a partir de la methode create du controller
+Route::post('/formulaire', [ProfileController::class, 'store'])->name('formulaire.store');//route pour enregistrer les données du formulaire a partir de la methode store du controller

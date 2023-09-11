@@ -11,7 +11,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        return view('formulaire');
     }
 
     /**
@@ -19,7 +19,10 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        //Récupération des profils dans la session ou tableau vide
+        $profiles = session()->get('profiles', []);
+        return view('components.profile', compact('profiles'));
+
     }
 
     /**
@@ -27,7 +30,32 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validation des données du formulaire
+        $request->validate([
+            'nom' => 'required',
+            'prenom' => 'required',
+            'email' => 'required',
+            'telephone' => 'required',
+            'commentaire' => 'required',
+            'photo' => 'nullable'
+        ]);
+         //Création d'un objet profil avec les données du formulaire
+        $data = new \stdClass();
+        $data->nom = $request->nom;
+        $data->prenom = $request->prenom;
+        $data->email = $request->email;
+        $data->telephone = $request->telephone;
+        $data->commentaire = $request->commentaire;
+        $data->photo = $request->photo;
+
+        //Stockage du profil dans la session
+        $profiles = session()->get('profiles', []);//Récupération des profils dans la session ou tableau vide
+        $profiles[] = $data;//Ajout du profil dans le tableau
+        session()->put('profiles', $profiles);//Stockage du tableau dans la session
+
+        //Redirection vers la page de création de profil
+        return redirect()->route('profiles.create')->with('success', 'Profile créé avec succès.');
+
     }
 
     /**
