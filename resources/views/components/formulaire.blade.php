@@ -3,7 +3,7 @@
 @section('content')
     <div>
         <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="display: inline-block; color:#272361; border: 2px solid #272361; padding: 10px;">FORMULAIRE</h1>
+            <h1 style="display: inline-block; color:#272361; background:linear-gradient(to bottom, lightsteelblue, white); border: 2px solid #272361; padding: 10px;">FORMULAIRE</h1>
         </div>
 
 
