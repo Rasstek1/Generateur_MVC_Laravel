@@ -119,9 +119,19 @@ class ProfileController extends Controller
         $index = array_search($id, array_column($profiles, 'id'));
 
         if ($index !== false) {
-            // Mettez à jour les champs du profil ici
-            $profiles[$index]->nom = $request->nom;
-            // ... (autres champs à mettre à jour)
+            $profiles[$index]->nom = $request->nom;//
+            $profiles[$index]->prenom = $request->prenom;
+            $profiles[$index]->email = $request->email;
+            $profiles[$index]->telephone = $request->telephone;
+            $profiles[$index]->commentaire = $request->commentaire;
+
+            // Gestion de la photo si elle a été mise à jour
+            if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+                // Stockez la photo et mettez à jour le chemin d'accès dans le profil
+                // (ajustez selon la manière dont vous gérez le stockage des photos)
+                $path = $request->photo->store('photos');
+                $profiles[$index]->photo = $path;
+            }
 
             session()->put('profiles', $profiles);
             return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès.');
@@ -129,6 +139,7 @@ class ProfileController extends Controller
             return redirect()->route('profile.index')->with('error', 'Profil non trouvé.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
