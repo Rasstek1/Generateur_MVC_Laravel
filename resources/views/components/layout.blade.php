@@ -53,7 +53,7 @@
                                     <a class="nav-link" href="{{ route('profile.create') }}">Profiles</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profiles.index') }}">Modification</a>
+                                    <a class="nav-link" href="{{ route('profile.index') }}">Modification</a>
                                 </li>
                             </ul>
                         </div>
