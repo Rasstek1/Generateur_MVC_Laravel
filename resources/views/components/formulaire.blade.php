@@ -2,8 +2,12 @@
 
 @section('content')
     <div>
-        <h1 style="text-align: center;">Formulaire</h1>
-        <form action="{{ route('formulaire.store') }}" method="POST" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); max-width: 500px; margin: auto;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="display: inline-block; color:#272361; border: 2px solid #272361; padding: 10px;">FORMULAIRE</h1>
+        </div>
+
+
+        <form action="{{ route('formulaire.store') }}" method="POST" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 15px 0px #272361; max-width: 500px; margin: auto;">
             @csrf
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom</label>
@@ -21,10 +25,12 @@
                 <label for="telephone" class="form-label">Téléphone</label>
                 <input type="tel" class="form-control" id="telephone" name="telephone" required>
             </div>
-            <div class="mb-3">
-                <label for="commentaire" class="form-label">Message</label>
-                <textarea class="form-control" id="commentaire" name="commentaire" rows="4" required></textarea>
+            <div class="form-group">
+                <label for="commentaire">Commentaire :</label>
+                <textarea class="form-control" id="commentaire" name="commentaire" rows="3" maxlength="100" placeholder="Max 100 caractères"></textarea>
+
             </div>
+
             <div class="mb-3">
                 <label for="photo">Sélectionnez une image :</label>
                 <input type="file" name="photo" id="photo">

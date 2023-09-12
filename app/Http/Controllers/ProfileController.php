@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+
+//Pour utiliser avec intervention/image
 
 class ProfileController extends Controller
 {
@@ -11,7 +14,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('formulaire');
+        $profiles = session('profiles', []);
+        return view('components.modification', compact('profiles'));
     }
 
     /**
@@ -30,33 +34,57 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //Validation des données du formulaire
         $request->validate([
             'nom' => 'required',
             'prenom' => 'required',
             'email' => 'required',
             'telephone' => 'required',
             'commentaire' => 'required',
-            'photo' => 'nullable'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-         //Création d'un objet profil avec les données du formulaire
+        // Récupérez tous les profils de la session
+        $profiles = session()->get('profiles', []);
+
+        // Trouvez l'ID le plus élevé parmi ces profils et ajoutez 1 pour obtenir le nouvel ID
+        $maxId = collect($profiles)->max('id');
+        $newId = is_null($maxId) ? 1 : $maxId + 1;
+
         $data = new \stdClass();
+        $data->id = $newId; // Attribuez le nouvel ID au profil
         $data->nom = $request->nom;
         $data->prenom = $request->prenom;
         $data->email = $request->email;
         $data->telephone = $request->telephone;
         $data->commentaire = $request->commentaire;
-        $data->photo = $request->photo;
 
-        //Stockage du profil dans la session
-        $profiles = session()->get('profiles', []);//Récupération des profils dans la session ou tableau vide
-        $profiles[] = $data;//Ajout du profil dans le tableau
-        session()->put('profiles', $profiles);//Stockage du tableau dans la session
+        if ($request->hasFile('photo')) {
+            $imageName = time() . '.' . $request->photo->extension();
 
-        //Redirection vers la page de création de profil
+            // Chemin d'accès où l'image sera stockée
+            $path = public_path('images/' . $imageName);
+
+            //Pour utiliser le recadrage d'image avec intervention/image, modifier le fichier php.ini dans Xampp et decommente la ligne extension=gd
+            // Téléchargez l'image et recadrez-la
+            $image = Image::make($request->file('photo')->getRealPath());
+            $image->fit(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            // Enregistrez l'image recadrée
+            $image->save($path);
+
+            $data->photo = 'images/' . $imageName;
+        } else {
+            $data->photo = null;
+        }
+
+        $profiles = session()->get('profiles', []);
+        $profiles[] = $data;
+        session()->put('profiles', $profiles);
+
         return redirect()->route('profiles.create')->with('success', 'Profile créé avec succès.');
-
     }
+
 
     /**
      * Display the specified resource.
@@ -90,3 +118,17 @@ class ProfileController extends Controller
         //
     }
 }
+///a mettre dans le terminal pour installer intervention/image
+/// composer require intervention/image
+///
+/// a mettre dans config/app.php
+///
+/// 'providers' => [
+//    // ...
+//    Intervention\Image\ImageServiceProvider::class,
+//],
+//
+//'aliases' => [
+//    // ...
+//    'Image' => Intervention\Image\Facades\Image::class,
+//],
