@@ -14,6 +14,13 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        // Récupération des profils dans la session ou tableau vide
+        $profiles = session()->get('profiles', []);
+        return view('components.formulaire', compact('profiles'));
+    }
+
+    public function redirectModification()
+    {
         $profiles = session('profiles', []);
         return view('components.modification', compact('profiles'));
     }
@@ -105,7 +112,7 @@ class ProfileController extends Controller
         if ($profile) {
             return view('components.formulaire', compact('profile'));
         } else {
-            return redirect()->route('profile.index')->with('error', 'Profil non trouvé.');
+            return redirect()->route('profiles.redirectModification')->with('error', 'Profil non trouvé.');
         }
     }
 
@@ -134,9 +141,9 @@ class ProfileController extends Controller
             }
 
             session()->put('profiles', $profiles);
-            return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès.');
+            return redirect()->route('profiles.redirectModification')->with('success', 'Profil mis à jour avec succès.');
         } else {
-            return redirect()->route('profile.index')->with('error', 'Profil non trouvé.');
+            return redirect()->route('profiles.redirectModification')->with('error', 'Profil non trouvé.');
         }
     }
 
@@ -157,7 +164,7 @@ class ProfileController extends Controller
         }
 
         session()->put('profiles', $profiles);
-        return redirect()->route('profile.index')->with('success', 'Profil supprimé avec succès.');
+        return redirect()->route('profiles.redirectModification')->with('success', 'Profil supprimé avec succès.');
     }
 }
 ///a mettre dans le terminal pour installer intervention/image

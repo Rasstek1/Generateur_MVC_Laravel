@@ -50,11 +50,12 @@
                                     <a class="nav-link active" href="{{ url('/') }}">Formulaire</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profile.create') }}">Profiles</a>
+                                    <a class="nav-link" href="{{ route('profile.create') }}">Profils</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profile.index') }}">Modification</a>
+                                    <a class="nav-link" href="{{ route('profiles.redirectModification') }}">Modification</a>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
