@@ -47,14 +47,19 @@
                                     <a class="nav-link active" href="{{ url('/') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{{ url('/') }}">Formulaire</a>
+                                    <a class="nav-link" href="{{ route('profiles.create') }}">Formulaire</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profile.create') }}">Profils</a>
+                                    <a class="nav-link" href="{{ route('profiles.index') }}">Profils</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('profiles.redirectModification') }}">Modification</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('profile.show') }}">Rechercher</a>
+
+                                </li>
+
 
                             </ul>
                         </div>

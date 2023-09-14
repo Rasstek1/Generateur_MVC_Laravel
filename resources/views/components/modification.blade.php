@@ -13,7 +13,8 @@
                     <div class="card mb-4" style="box-shadow: 0px 0px 15px 0px #272361">
                         <div class="card-body"
                              style="border: 1px solid dimgrey; padding: 5px; height: 650px; display: flex; flex-direction: column;">
-                            <img src="{{ asset($profile->photo) }}" class="card-img-top" alt="Photo de profil">
+                            <img src="{{ asset($profile->photo_cropped) }}" class="card-img-top" alt="Photo de profil" style="object-fit: contain;">
+
                             <h5 class="card-title"
                                 style="font-size: larger; font-weight: bold; color: #e64331; text-decoration: underline; padding: 10px;">
                                 {{ $profile->prenom }} {{ $profile->nom }}

@@ -14,9 +14,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        // Récupération des profils dans la session ou tableau vide
+        //Récupération des profils dans la session ou tableau vide
         $profiles = session()->get('profiles', []);
-        return view('components.formulaire', compact('profiles'));
+        return view('components.profile', compact('profiles'));
     }
 
     public function redirectModification()
@@ -30,9 +30,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //Récupération des profils dans la session ou tableau vide
-        $profiles = session()->get('profiles', []);
-        return view('components.profile', compact('profiles'));
+        return view('components.formulaire');
 
     }
 
@@ -70,35 +68,55 @@ class ProfileController extends Controller
             // Chemin d'accès où l'image sera stockée
             $path = public_path('images/' . $imageName);
 
-            //Pour utiliser le recadrage d'image avec intervention/image, modifier le fichier php.ini dans Xampp et decommente la ligne extension=gd
+            // Sauvegardez l'image originale d'abord
+            $request->file('photo')->move(public_path('images/'), $imageName);
+
+            // Pour utiliser le recadrage d'image avec intervention/image, modifiez le fichier php.ini dans Xampp et décommentez la ligne extension=gd
             // Téléchargez l'image et recadrez-la
-            $image = Image::make($request->file('photo')->getRealPath());
+            $image = Image::make($path);
             $image->fit(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
-            // Enregistrez l'image recadrée
-            $image->save($path);
+            // Enregistrez l'image recadrée avec un suffixe distinct
+            $croppedImageName = 'cropped_' . $imageName;
+            $croppedPath = public_path('images/' . $croppedImageName);
+            $image->save($croppedPath);
 
-            $data->photo = 'images/' . $imageName;
+            $data->photo_original = 'images/' . $imageName; // Path to the original image
+            $data->photo_cropped = 'images/' . $croppedImageName; // Path to the cropped image
         } else {
-            $data->photo = null;
+            $data->photo_original = null;
+            $data->photo_cropped = null;
         }
+
 
         $profiles = session()->get('profiles', []);
         $profiles[] = $data;
         session()->put('profiles', $profiles);
 
-        return redirect()->route('profile.create')->with('success', 'Profile créé avec succès.');
+        return redirect()->route('profiles.index')->with('success', 'Profile créé avec succès.');
+
+
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *///Pour effectuer une recherche dans la session d'un profil avec le id
+    public function show(Request $request)
     {
+        $profileId = $request->input('profile');
 
+        $profiles = session('profiles', []);
+        $profile = collect($profiles)->firstWhere('id', $profileId);
+
+        return view('components.recherche', compact('profile'));
     }
 
     /**
