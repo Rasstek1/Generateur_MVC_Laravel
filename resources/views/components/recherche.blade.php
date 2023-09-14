@@ -13,7 +13,7 @@
 
 
         @if($profile ?? false)
-            <div class="card mb-4" style="box-shadow: 0px 0px 20px 10px #272361; max-width: 600px;  margin: 0 auto;">
+            <div class="card mb-4" style="box-shadow: 0px 0px 20px 10px #272361; max-width: 1000px;  margin: 0 auto;">
                 <div class="card-body" style="border: 1px solid dimgrey; padding: 5px; display: flex; flex-direction: column; align-items: center;">
                     <img src="{{ asset($profile->photo_original) }}" class="card-img-top" alt="Photo de profil" style="object-fit: contain; max-width: 100%; height: auto;">
                     <h5 class="card-title" style="font-size: larger; font-weight: bold; color: #e64331; text-decoration: underline; padding: 10px;">
