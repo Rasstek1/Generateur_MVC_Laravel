@@ -19,7 +19,7 @@
                                 style="font-size: larger; font-weight: bold; color: #e64331; text-decoration: underline; padding: 10px;">
                                 {{ $profile->prenom }} {{ $profile->nom }}
                             </h5>
-                            <p class="card-text" style="flex-grow: 1; padding: 10px;">
+                            <p class="card-text" style="flex-grow: 1; padding: 10px;border: 2px solid dimgrey; box-shadow: 0px 0px 10px 0px #272361">
                                 <strong>Id :</strong> {{ isset($profile->id) ? $profile->id : 'Non assigné' }}<br>
                                 <strong>Email :</strong> {{ $profile->email }}<br>
                                 <strong>Téléphone :</strong> {{ $profile->telephone }}<br>
