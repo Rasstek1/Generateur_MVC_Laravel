@@ -11,6 +11,7 @@
             <button type="submit" style="margin-bottom:20px">Afficher le profil</button>
         </form>
 
+
         @if($profile ?? false)
             <div class="card mb-4" style="box-shadow: 0px 0px 20px 10px #272361; max-width: 600px;  margin: 0 auto;">
                 <div class="card-body" style="border: 1px solid dimgrey; padding: 5px; display: flex; flex-direction: column; align-items: center;">
@@ -24,9 +25,16 @@
                         <strong>Téléphone :</strong> {{ $profile->telephone }}<br>
                         <strong>Commentaire :</strong> {{ \Illuminate\Support\Str::limit($profile->commentaire, 100, '...') }}<!-- Limite le nombre de caractères à 100 -->
                     </p>
+
                 </div>
             </div>
-        @endif
+        @elseif(session('message'))
+            <p class="message" style="text-align: center;">{{ session('message') }}</p>
+        @elseif(session('profiles', []))
+            <p class="message" style="text-align: center;">Veuillez entrer l'ID d'un profil à rechercher.</p>
+        @else
+            <p class="message" style="text-align: center;">Aucun profil n'a été créé.</p>
+            @endif
     </div>
 
 @endsection

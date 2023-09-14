@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -40,16 +41,18 @@ class ProfileController extends Controller
      * Store a newly created resource in storage.
      */
     //Fonction pour enregistrer les données du formulaire dans la session a partir de la page formulaire
-    public function store(Request $request)
+    public function store(ProfileRequest $request)
     {
-        $request->validate([
+        //Ceci est maintenant valider par la classe ProfileRequest dans le dossier Request
+        /*$request->validate([
             'nom' => 'required',
             'prenom' => 'required',
             'email' => 'required',
             'telephone' => 'required',
             'commentaire' => 'required',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        ]);*/
+
         // Récupérez tous les profils de la session
         $profiles = session()->get('profiles', []);
 
@@ -112,8 +115,22 @@ class ProfileController extends Controller
         $profiles = session('profiles', []);
         $profile = collect($profiles)->firstWhere('id', $profileId);
 
-        return view('components.recherche', compact('profile'));
+        if (is_null($profileId)) {
+            return view('components.recherche');
+        }
+
+        if ($profile) {
+            return view('components.recherche', compact('profile'));
+        }
+
+        return redirect()->route('profile.show')->with('message', 'Profil non trouvé.');
     }
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
