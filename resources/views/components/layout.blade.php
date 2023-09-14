@@ -22,8 +22,13 @@
 
 <!-- Header et Navigation -->
 <header>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
     <div class="container-fluid">
-        <!-- Logo -->
+
+
         <div class=" justify-content-center text-center">
             <div class="col-12">
                 <a class="navbar-brand" href="{{ url('/') }}">

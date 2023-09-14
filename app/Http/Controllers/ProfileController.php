@@ -12,6 +12,7 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
+    //Fonction pour afficher les profils de la session dans la page profils
     public function index()
     {
         //Récupération des profils dans la session ou tableau vide
@@ -28,6 +29,7 @@ class ProfileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function create()
     {
         return view('components.formulaire');
@@ -37,6 +39,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    //Fonction pour enregistrer les données du formulaire dans la session a partir de la page formulaire
     public function store(Request $request)
     {
         $request->validate([
@@ -96,19 +99,12 @@ class ProfileController extends Controller
         session()->put('profiles', $profiles);
 
         return redirect()->route('profiles.index')->with('success', 'Profile créé avec succès.');
-
-
     }
-
 
     /**
      * Display the specified resource.
      */
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     *///Pour effectuer une recherche dans la session d'un profil avec le id
+    //Fonction pour effectuer une recherche dans la session d'un profil avec le id dans la page recherche
     public function show(Request $request)
     {
         $profileId = $request->input('profile');
@@ -122,6 +118,7 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    //Fonction qui renvois a la page de modification d'un profil
     public function edit($id)
     {
         $profiles = session('profiles', []);
@@ -138,6 +135,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    //Fonction pour mettre a jour les données d'un profil dans la session a partir de la page formulaire
     public function update(Request $request, string $id)
     {
         $profiles = session('profiles', []);
@@ -169,6 +167,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    //Fonction pour supprimer un profil de la session a partir de la page modification
     public function destroy($id)
     {
         $profiles = session('profiles', []);
@@ -199,3 +198,7 @@ class ProfileController extends Controller
 //    // ...
 //    'Image' => Intervention\Image\Facades\Image::class,
 //],
+
+
+
+
