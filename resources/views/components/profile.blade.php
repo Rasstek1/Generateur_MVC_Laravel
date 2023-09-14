@@ -1,0 +1,37 @@
+@extends('components.layout')
+
+@section('content')
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="display: inline-block; color:#272361; background:linear-gradient(to bottom, lightsteelblue, white); border: 2px solid #272361; padding: 10px;">PROFILS</h1>
+    </div>
+
+
+    @if(session('profiles'))
+        <div class="row">
+            @foreach(session('profiles') as $profile)
+                <div class="col-md-4">
+                    <div class="card mb-4" style="box-shadow: 0px 0px 15px 0px #272361">
+                        <div class="card-body" style="border: 1px solid dimgrey; padding: 5px; height: 600px; display: flex; flex-direction: column;">
+                            <img src="{{ asset($profile->photo_cropped) }}" class="card-img-top" alt="Photo de profil" style="object-fit: contain;">
+
+                            <h5 class="card-title" style="font-size: larger; font-weight: bold; color: #e64331; text-decoration: underline; padding: 10px;">
+                                {{ $profile->prenom }} {{ $profile->nom }}
+                            </h5>
+                            <p class="card-text" style="flex-grow: 1; padding: 10px;border: 2px solid dimgrey; box-shadow: 0px 0px 10px 0px #272361">
+                                <strong>Id :</strong> {{ isset($profile->id) ? $profile->id : 'Non assigné' }}<br>
+                                <strong>Email :</strong> {{ $profile->email }}<br>
+                                <strong>Téléphone :</strong> {{ $profile->telephone }}<br>
+                                <strong>Commentaire :</strong> {{ \Illuminate\Support\Str::limit($profile->commentaire, 100, '...') }}<!-- Limite le nombre de caractères à 100 -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+
+        </div>
+    @else
+        <p class="message" style="text-align: center;">Aucun profil n'a été créé.</p>
+    @endif
+@endsection
+
